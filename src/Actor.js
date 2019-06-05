@@ -4,7 +4,7 @@
  */
 
 import Vector3 from "./Vector3";
-import Generate from "./Generate";
+import {UUID} from "./Generate";
 
 export default class Actor {
     /**
@@ -17,7 +17,7 @@ export default class Actor {
         this.active = true;
         this.visible = true;
         this.dead = false;
-        this.id = Generate.UUID();
+        this.id = UUID();
         this.location = location;
         this.velocity = new Vector3(0, 0, 0);
         this.acceleration = new Vector3(0, 0, 0);

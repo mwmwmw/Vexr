@@ -1,87 +1,88 @@
-import Convert from "./Convert";
+import {DegreesToRadians} from "./Convert";
+
+export const angleBetween = (a, b) => {
+	var mag = a.magnitude() * b.magnitude();
+	var dot = dot(a, b);
+	return Math.acos(dot / mag);
+}
+
+export const lerp = (a, b, t) => {
+	var x = a.x + t * (b.x - a.x);
+	var y = a.y + t * (b.y - a.y);
+	return new Vector2(x, y);
+}
+
+export const normalize = (vector) => {
+	var vec = vector.get();
+	vec.normalize();
+	return vec;
+}
+
+export const magnitude = (vec) => {
+	return Math.sqrt(dot(vec, vec));
+}
+
+export const add = (a, b) => {
+	return new Vector2((a.x + b.x), (a.y + b.y));
+}
+
+export const subtract = (a, b) => {
+	var n = new Vector2(b.x, b.y);
+	n.negate();
+	return add(a, n);
+}
+
+export const multiply = (a, scalar) => {
+	return new Vector2(a.x * scalar, a.y * scalar);
+}
+
+export const divide = (a, scalar) => {
+	scalar = 1 / scalar;
+	return multiply(a, scalar);
+}
+
+export const dot = (a, b) => {
+	return a.x * b.x + a.y * b.y;
+}
+
+export const dist = (a, b) => {
+	var vec1 = a.x - b.x;
+	var vec2 = a.y - b.y;
+	return Math.sqrt((vec1 * vec1) + (vec2 * vec2));
+}
 
 export default class Vector2 {
 
-	static angleBetween(a, b) {
-		var mag = a.magnitude() * b.magnitude();
-		var dot = Vector2.dot(a, b);
-		return Math.acos(dot / mag);
-	}
-
-	static lerp(a, b, t) {
-		var x = a.x + t * (b.x - a.x);
-		var y = a.y + t * (b.y - a.y);
-		return new Vector2(x, y);
-	}
-
-	static normalize(vector) {
-		var vec = vector.get();
-		vec.normalize();
-		return vec;
-	}
-
-	static magnitude(vec) {
-			return Math.sqrt(Vector2.dot(vec, vec));
-	}
-
-	static add(a, b) {
-		return new Vector2((a.x + b.x), (a.y + b.y));
-	}
-
-	static subtract(a, b) {
-		var n = new Vector2(b.x, b.y);
-		n.negate();
-		return Vector2.add(a, n);
-	}
-
-	static multiply(a, scalar) {
-		return new Vector2(a.x * scalar, a.y * scalar);
-	}
-
-	static divide(a, scalar) {
-		scalar = 1 / scalar;
-		return Vector2.multiply(a, scalar);
-	}
-
-	static dot(a, b) {
-		return a.x * b.x + a.y * b.y;
-	}
-
-	static dist(a, b) {
-		var vec1 = a.x - b.x;
-		var vec2 = a.y - b.y;
-		return Math.sqrt((vec1 * vec1) + (vec2 * vec2));
-	}
 
 	constructor(x = 0, y = 0) {
-		this.raw = [x,y];
+		this.raw = [x, y];
 	}
 
-	get x () {
+	get x() {
 		return this.raw[0];
 	}
 
-	set x (value) {
+	set x(value) {
 		this.raw[0] = value;
 	}
 
-	get y () {
+	get y() {
 		return this.raw[1];
 	}
 
-	set y (value) {
+	set y(value) {
 		this.raw[1] = value;
 	}
 
-	get z () {
+	get z() {
 		return 0;
 	}
-	
+
 	get() {
 		return new Vector2(this.x, this.y);
 	}
 
-	set(x=0, y=0) {
+	set(x = 0, y = 0) {
 		this.x = x;
 		this.y = y;
 	}
@@ -134,7 +135,7 @@ export default class Vector2 {
 
 	rotate(degrees, pivotVector = new Vector2(0, 0), stabilize = false) {
 		var mag = this.magnitude();
-		var rads = Convert.degreesToRadians(degrees);
+		var rads = DegreesToRadians(degrees);
 		var cosineAngle = Math.cos(rads);
 		var sineAngle = Math.sin(rads);
 		this.x = (cosineAngle * (this.x - pivotVector.x)) + (sineAngle * (this.y - pivotVector.y)) + pivotVector.x;
@@ -146,7 +147,7 @@ export default class Vector2 {
 	}
 
 	magnitude() {
-		return Math.sqrt(Vector2.dot(this, this));
+		return Math.sqrt(dot(this, this));
 	}
 
 	normalize() {

@@ -2,13 +2,13 @@
  * Behaviors are applied to Actors by passing actors, target actors, and parameters into them.
  * @class Behaviors
  */
-import Convert from "./Convert";
-import Generate from "./Generate";
+import {MapRange} from "./Convert";
+import {UUID} from "./Generate";
 import Vector3 from "./Vector3";
 import Pool from "./Pool";
 import Screen from "./Screen";
 
-const key = Generate.UUID();
+const key = UUID();
 export default class Behavior {
     /**
      * init is a static method that is used to initialize the object pool
@@ -51,7 +51,7 @@ export default class Behavior {
         var desired = Pool.getObject(key);
         var steer = Pool.getObject(key);
         Vector3.subtract(target, actor.location, desired);
-        var mappedPower = Convert.MapRange(desired.magnitude(), 0, power, 0, actor.maxSpeed);
+        var mappedPower = MapRange(desired.magnitude(), 0, power, 0, actor.maxSpeed);
         desired.normalize();
         desired.multiply(mappedPower);
         Vector3.subtract(desired, actor.velocity, steer);
